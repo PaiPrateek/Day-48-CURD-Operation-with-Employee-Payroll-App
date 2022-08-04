@@ -203,14 +203,6 @@ const createInnerHtml = () => {
 }
 */
 
-const getDeptHtml = (deptList) => {
-    let deptHtml = '';
-    for (const dept of deptList) {
-        deptHtml = `${deptHtml} <div class='dept-label'>${dept}</div>`
-    }
-    return deptHtml;
-}
-
 //UC6 - Display Employee Details from Local Storage
 
 let empPayrollList;
@@ -243,7 +235,7 @@ const createInnerHtml = () => {
            <td>${empPayrollData._gender}</td>
            <td>${getDeptHtml(empPayrollData._department)}</td>
            <td>${empPayrollData._salary}</td>
-           <td>${empPayrollData._startDate}</td>
+           <td>${stringifyDate(empPayrollData._startDate)}</td>
                 <td>
                     <img id="${empPayrollData._id}" onclick="remove(this)" alt="delete" src="delete-black-18dp.svg">
                     <img id="${empPayrollData._id}" onclick="update(this)" alt="edit" src="create-black-18dp.svg">
@@ -251,6 +243,33 @@ const createInnerHtml = () => {
        </tr>`;
     }
     document.querySelector('#table-display').innerHTML = innerHtml;
-
 }
 
+
+const getDeptHtml = (deptList) => {
+    let deptHtml = '';
+    for (const dept of deptList) {
+        deptHtml = `${deptHtml} <div class='dept-label'>${dept}</div>`
+    }
+    return deptHtml;
+}
+
+//Day 48 UC1 Remove an Employee from the Payroll details
+const remove = (node) => {
+    let empPayrollData = empPayrollList.find(empData => empData._id == node.id);
+    if (!empPayrollData) return;
+    const index = empPayrollList
+        .map(empData => empData._id)
+        .indexOf(empPayrollData._id);
+    empPayrollList.splice(index, 1);
+    localStorage.setItem("EmployeePayrollList", JSON.stringify(empPayrollList));
+    //document.querySelector(".emp-count").textContent = empPayrollList.length;
+    createInnerHtml();
+}
+
+const update = (node) =>{
+    let employeePayrollData = empPayrollList.find(empData=> empData._id==node.id)
+    if(!empPayrollData) return;
+    localStorage.setItem('editEmp',JSON.stringify(employeePayrollData))
+    window.location.replace(site_properties.add_emp_payroll_page);
+}
