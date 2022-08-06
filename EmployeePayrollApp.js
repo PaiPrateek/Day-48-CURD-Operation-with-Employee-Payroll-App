@@ -141,8 +141,8 @@ const getInputElementValue = (id) => {
 
 function createAndUpdateStorage(employeePayrollData) {
     let employeePayrollList = JSON.parse(localStorage.getItem("EmployeePayrollList"));
-    if (empPayrollData!= undefined) {
-        employeePayrollList.push(createEmployeePayrollData);
+    if (employeePayrollList!= undefined) {
+        employeePayrollList.push(employeePayrollData);
     }
     else {
         employeePayrollList = [employeePayrollData]
